@@ -29,8 +29,7 @@ jobs:
           cd sing-box
           git fetch origin dev-next
           COMMIT_ID=$(git rev-parse origin/dev-next)
+          echo "Built Sing-Box with commit ID: $COMMIT_ID"
 
       - name: Compile Sing-Box
-        run: |
-          cd sing-box/cmd/sing-box
-          go install -v -tags "with_clash_api with_grpc with_wireguard with_utls with_gvisor with_quic with_dhcp with_ech with_reality_server" github.com/sagernet/sing-box/cmd/sing-box@$COMMIT_ID
+        run: go install -v -tags "with_clash_api with_grpc with_wireguard with_utls with_gvisor with_quic with_dhcp with_ech with_reality_server" github.com/sagernet/sing-box/cmd/sing-box@$COMMIT_ID
