@@ -12,6 +12,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Clone Sing-Box repository
+        uses: actions/checkout@v2
+        with:
+          repository: sagernet/sing-box
+          ref: dev-next
+          path: sing-box
+
       - name: Install Go
         uses: actions/setup-go@v2
         with:
@@ -19,6 +26,7 @@ jobs:
 
       - name: Get latest commit ID
         run: |
+          cd sing-box
           git fetch origin dev-next
           COMMIT_ID=$(git rev-parse origin/dev-next)
 
