@@ -20,11 +20,10 @@ jobs:
           path: sing-box
 
       - name: Install Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.20
-        env:
-          GO111MODULE: 'on'
+        run: |
+          curl -fsL https://raw.githubusercontent.com/jetsung/golang-install/main/install.sh | bash
+          echo 'export PATH="$HOME/go/bin:$PATH"' >> $HOME/.bashrc
+          source $HOME/.bashrc
 
       - name: Restore commit ID cache
         uses: actions/cache@v2
