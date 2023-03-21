@@ -51,5 +51,5 @@ jobs:
         run: |
           cd sing-box
           COMMIT_ID=$(cat .commit_id_cache)
-          go build -ldflags "-X main.Version=$COMMIT_ID" -o sing-box ./cmd/sing-box
+          go install -v -tags "with_clash_api with_grpc with_wireguard with_utls with_gvisor with_quic with_dhcp with_ech with_reality_server" github.com/sagernet/sing-box/cmd/sing-box@$COMMIT_ID
           echo "Built Sing-Box with commit ID $COMMIT_ID"
