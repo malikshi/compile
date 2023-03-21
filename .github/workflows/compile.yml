@@ -28,7 +28,7 @@ jobs:
         run: |
           cd sing-box
           git fetch origin dev-next
-          COMMIT_ID=$(git rev-parse origin/dev-next)
+          COMMIT_ID=$(git rev-parse --short origin/dev-next)
           echo "Built Sing-Box with commit ID: $COMMIT_ID"
 
       - name: Compile Sing-Box
