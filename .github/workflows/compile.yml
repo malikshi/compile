@@ -12,21 +12,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Clone Sing-Box repository
-        uses: actions/checkout@v2
-        with:
-          repository: sagernet/sing-box
-          ref: dev-next
-          path: sing-box
-
-      - name: Set terminal type
-        env:
-          TERM: xterm
-
       - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.20
+
+      - name: Clone Sing-Box repository
         run: |
-          curl -fsL https://raw.githubusercontent.com/jetsung/golang-install/main/install.sh | bash
-          export PATH=$PATH:/usr/local/go/bin
+          git clone --branch dev-next https://github.com/sagernet/sing-box.git
+        working-directory: ${{ github.workspace }}
 
       - name: Restore commit ID cache
         uses: actions/cache@v2
@@ -47,5 +41,5 @@ jobs:
       - name: Compile Sing-Box
         run: |
           cd sing-box/cmd/sing-box
-          go install -v -tags "with_clash_api with_grpc with_wireguard with_utls with_gvisor with_quic with_dhcp with_ech with_reality_server" github.com/sagernet/sing-box/cmd/sing-box@$(cat ../.commit_id_cache)
-          echo "Built Sing-Box with $(cat ../.commit_id_cache)"
+          go install -v -tags "with_clash_api with_grpc with_wireguard with_utls with_gvisor with_quic with_dhcp with_ech with_reality_server" github.com/sagernet/sing-box/cmd/sing-box@$(cat ../../sing-box/.commit_id_cache)
+          echo "Built Sing-Box with $(cat ../../sing-box/.commit_id_cache)"
