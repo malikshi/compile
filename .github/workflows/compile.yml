@@ -9,15 +9,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Sing-Box repository
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Clone Sing-Box repository
+        uses: actions/checkout@v2
         with:
           repository: sagernet/sing-box
           ref: dev-next
           path: sing-box
 
       - name: Install Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v2
         with:
           go-version: 1.20
 
@@ -39,7 +42,7 @@ jobs:
 
       - name: Compile Sing-Box
         run: |
-          cd sing-box/release/local
-          sh install.sh
-        env:
-          COMMIT_ID: ${{ steps.commit-cache.outputs.commit_id }}
+          cd sing-box
+          COMMIT_ID=$(cat .commit_id_cache)
+          go build -ldflags "-X main.Version=$COMMIT_ID" -o sing-box ./cmd/sing-box
+          echo "Built Sing-Box with commit ID $COMMIT_ID"
