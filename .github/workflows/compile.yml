@@ -12,15 +12,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Clone Sing-Box repository
+        uses: actions/checkout@v2
+        with:
+          repository: sagernet/sing-box
+          ref: dev-next
+          path: sing-box
+
       - name: Install Go
         uses: actions/setup-go@v2
         with:
           go-version: 1.20
-
-      - name: Clone Sing-Box repository
-        run: |
-          git clone --branch dev-next https://github.com/sagernet/sing-box.git
-        working-directory: ${{ github.workspace }}
 
       - name: Restore commit ID cache
         uses: actions/cache@v2
