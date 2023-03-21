@@ -24,12 +24,24 @@ jobs:
         with:
           go-version: 1.20
 
+      - name: Restore commit ID cache
+        uses: actions/cache@v2
+        id: commit-cache
+        with:
+          path: sing-box/.commit_id_cache
+          key: ${{ runner.os }}-commit-id-${{ hashFiles('sing-box/go.mod') }}
+
       - name: Get latest commit ID
+        if: steps.commit-cache.cache-hit != 'true'
         run: |
           cd sing-box
           git fetch origin dev-next
           COMMIT_ID=$(git rev-parse --short origin/dev-next)
-          echo "Built Sing-Box with commit ID: $COMMIT_ID"
+          echo "Using commit ID: $COMMIT_ID"
+          echo "$COMMIT_ID" > .commit_id_cache
 
       - name: Compile Sing-Box
-        run: go install -v -tags "with_clash_api with_grpc with_wireguard with_utls with_gvisor with_quic with_dhcp with_ech with_reality_server" github.com/sagernet/sing-box/cmd/sing-box@$COMMIT_ID
+        run: |
+          cd sing-box/cmd/sing-box
+          go install -v -tags "with_clash_api with_grpc with_wireguard with_utls with_gvisor with_quic with_dhcp with_ech with_reality_server" github.com/sagernet/sing-box/cmd/sing-box@$(cat ../.commit_id_cache)
+          echo "Built Sing-Box with $(cat ../.commit_id_cache)"
