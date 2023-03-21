@@ -43,5 +43,5 @@ jobs:
       - name: Compile Sing-Box
         run: |
           cd sing-box/cmd/sing-box
-          go install -v -tags "with_clash_api with_grpc with_wireguard with_utls with_gvisor with_quic with_dhcp with_ech with_reality_server" github.com/sagernet/sing-box/cmd/sing-box@$(cat ../.commit_id_cache)
-          echo "Built Sing-Box with $COMMIT_ID"
+          go install -v -tags "with_clash_api with_grpc with_wireguard with_utls with_gvisor with_quic with_dhcp with_ech with_reality_server" github.com/sagernet/sing-box/cmd/sing-box@$(cat ../../sing-box/.commit_id_cache)
+          echo "Built Sing-Box with $(cat ../../sing-box/.commit_id_cache)"
