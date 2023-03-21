@@ -19,6 +19,13 @@ jobs:
           ref: dev-next
           path: sing-box
 
+      - name: Set up Go environment
+        run: |
+          mkdir -p $HOME/go/bin
+          echo "export GOPATH=$HOME/go" >> $HOME/.bashrc
+          echo "export PATH=\$PATH:\$GOPATH/bin" >> $HOME/.bashrc
+          source $HOME/.bashrc
+
       - name: Install Go
         uses: actions/setup-go@v2
         with:
