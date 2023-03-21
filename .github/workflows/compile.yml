@@ -9,18 +9,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Clone Sing-Box repository
-        uses: actions/checkout@v2
+      - name: Checkout Sing-Box repository
+        uses: actions/checkout@v3
         with:
           repository: sagernet/sing-box
           ref: dev-next
           path: sing-box
 
       - name: Install Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v4
         with:
           go-version: 1.20
 
